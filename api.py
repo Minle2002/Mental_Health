@@ -26,23 +26,22 @@ categories_mapping = {
 }
 
 def search_topics(input_words):
-    topic_id = None
+    matching_topics = []
     for name, tid in topics_mapping.items():
-        for word in input_words:
-            if word in name.lower():
-                topic_id = tid
-                break
-        if topic_id is not None:
-            break
+        if any(word in name.lower() for word in input_words):
+            matching_topics.append((name, tid))
     
-    if topic_id is None:
+    if not matching_topics:
         return {'error': 'No matching topics found'}
 
-    topic_url = f"{url}?TopicId={topic_id}"
-    response = requests.get(topic_url)
-    data = response.json()
+    topic_results = {}
+    for name, tid in matching_topics:
+        topic_url = f"{url}?TopicId={tid}"
+        response = requests.get(topic_url)
+        data = response.json()
+        topic_results[name] = data
 
-    return data
+    return topic_results
 
 def search_categories(input_words):
     category_ids = []

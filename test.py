@@ -1,6 +1,6 @@
 import requests
 
-url = "http://localhost:5000/category_information"
+url = "http://localhost:5000/topic_information"
 
 data = {
     "input_text": "doctor and anxiety"
